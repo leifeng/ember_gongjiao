@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <style>
+        .moda_list {
+            padding: 0;
+            margin: 0;
+        }
+
+        .moda_list li.moda_list_title {
+            clear: both;
+        }
+
+        .moda_list li {
+            list-style-type: none;
+            float: left;
+            margin-left: 10px;
+        }
+    </style>
+
+</head>
+<body>
+<script type="text/x-handlebars" data-template-name="application">
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#setting">
+                <span class="sr-only"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#index">{{title}}</a>
+        </div>
+        <div class="collapse navbar-collapse" id="setting">
+            <ul class="nav navbar-nav">
+                <li><a href="#about">{{about}}</a></li>
+                <li><a href="#setting">{{setting}}</a></li>
+            </ul>
+        </div>
+    </nav>
+    {{outlet}}
+</script>
+<script type="text/x-handlebars" data-template-name="index">
+    <div class="container">
+        <ul class="nav nav-tabs" id="myTab">
+            <li class="active"><a href="#xl" data-toggle="tab">{{tabName1}}</a></li>
+            <li><a href="#zd" data-toggle="tab">{{tabName2}}</a></li>
+            <li><a href="#hc" data-toggle="tab">{{tabName3}}</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="xl">
+                <div style="width: 90%;margin: 10px auto">
+                    <div class="input-group">
+                        {{view App.SearchTextField type="text" class="form-control" placeholder="例如：1路"
+                        valueBinding="App.xlData.line_no"}}
+                        <span class="input-group-btn">
+                                  <button class="btn btn-default more" type="button" data-toggle="modal"
+                                          data-target="#modal_panel"  {{action 'toTab' 0}}>选择
+                            </button>
+                        </span>
+                    </div>
+                    <br/>
+
+                    <div class="input-group">
+                        {{view App.SearchTextField type="text" class="form-control" placeholder="文化宫"
+                        valueBinding="App.xlData.line_station"}}
+                        <span class="input-group-btn">
+                                  <button class="btn btn-default more" type="button" data-toggle="modal"
+                                          data-target="#modal_panel"  {{action 'toTab' 1}}>选择
+                            </button>
+                        </span>
+                    </div>
+                    <br/>
+
+                    <div class="input-group">
+                        {{view App.SearchTextField type="text" class="form-control" placeholder="开往xx方向"
+                        valueBinding="App.xlData.line_fx_name"}}
+                        <span class="input-group-btn">
+                                  <button class="btn btn-default more" type="button" data-toggle="modal"
+                                          data-target="#modal_panel"  {{action 'toTab' 2}}>选择
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <div style="width: 80%;margin: 10px auto">
+                    <button type="button" class="btn btn-primary btn-block"
+                    {{action 'toXl'}}>查询</button>
+                </div>
+            </div>
+            <div class="tab-pane" id="zd">
+                <div style="width: 90%;margin: 10px auto">
+                    <div class="input-group">
+                        {{view App.SearchTextField type="text" class="form-control" placeholder="火车站"
+                        valueBinding="App.zdData.station_name"}}
+                     <span class="input-group-btn">
+                      <button class="btn btn-default more" type="button" data-toggle="modal"
+                              data-target="#modal_panel"  {{action 'toTab' 3}}>选择
+                         </button>
+                      </span>
+                    </div>
+                </div>
+                <div style="width: 80%;margin: 10px auto">
+                    <button type="button" class="btn btn-primary btn-block"
+                    {{action 'toZd'}}>查询</button>
+                </div>
+            </div>
+            <div class="tab-pane" id="hc">
+                <div style="width: 90%;margin: 10px auto">
+                    <div class="input-group">
+                        {{view App.SearchTextField type="text" class="form-control" placeholder="起始站"
+                        valueBinding="App.hcData.start_station_name"}}
+                     <span class="input-group-btn">
+                      <button class="btn btn-default more" type="button" data-toggle="modal"
+                              data-target="#modal_panel" {{action 'toTab' 4}}>选择
+                         </button>
+                      </span>
+                    </div>
+                    <br/>
+
+                    <div class="input-group">
+                        {{view App.SearchTextField type="text" class="form-control" placeholder="终点站"
+                        valueBinding="App.hcData.end_station_name"}}
+                     <span class="input-group-btn">
+                      <button class="btn btn-default more" type="button" data-toggle="modal"
+                              data-target="#modal_panel"  {{action 'toTab' 5}}>选择
+                         </button>
+                      </span>
+                    </div>
+                </div>
+                <div style="width: 80%;margin: 10px auto">
+                    <button type="button" class="btn btn-primary btn-block"
+                    {{action 'toHc'}}>查询</button>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="modal_panel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel"></h4>
+                    </div>
+                    <div class="modal-body">
+                        <ul class="moda_list">
+                            {{#if item.zd}}
+                            {{#each item.zd}}
+                            <li class="moda_list_title">{{key}}</li>
+                            {{#each value}}
+                            <li><a {{action 'toTxt' this}}>{{this}}</a></li>
+                            {{/each}}
+                            {{/each}}
+                            {{/if}}
+
+                            {{#if item.line}}
+                            {{#each item.line}}
+                            <li><a {{action 'toTxt' this}}>{{this}}</a></li>
+                            {{/each}}
+                            {{/if}}
+
+                            {{#if item.allstation}}
+                            {{#each item.allstation}}
+                            <li><a {{action 'toTxt' this}}>{{this}}</a></li>
+                            {{/each}}
+                            {{/if}}
+
+                            {{#if item.fx}}
+                            {{#each item.fx}}
+                            <li><a {{action 'toTxt' key}}>{{value}}</a></li>
+                            {{/each}}
+                            {{/if}}
+                        </ul>
+                        <div style="clear: both"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/x-handlebars" data-template-name="xl">
+    <div class="container">
+        <div class="list-group">
+            <a href="javascript:;" class="list-group-item active">
+                {{App.xlData.line_no}}路车开往{{App.xlData.line_fx_name}}方向<span style="float:right" {{action
+                'back'}}>返回</span>
+            </a>
+            <a href="javascript:;" class="list-group-item" {{action 'toIndex'
+            line}}>{{#if App.xlData.station_num}}离本站最近一班车还剩{{App.xlData.station_num}}站地{{else}}该方向还未发车{{/if}}</a>
+        </div>
+    </div>
+</script>
+<script type="text/x-handlebars" data-template-name="zd">
+    <div class="container">
+        <div class="list-group">
+            <a href="javascript:;" class="list-group-item active">
+                {{App.zdData.station_name}}信息<span style="float:right" {{action 'back'}}>返回</span>
+            </a>
+            {{#each App.zdData.station_info.zdinfo}}
+            <a href="javascript:;" class="list-group-item" {{action 'toIndex' line}}>{{line}}路 {{info}}{{time}}</a>
+            {{/each}}
+        </div>
+    </div>
+</script>
+<script type="text/x-handlebars" data-template-name="hc">
+    <div class="container">
+        <div class="list-group">
+            <a href="javascript:;" class="list-group-item active">
+                由{{App.hcData.start_station_name}}到{{App.hcData.end_station_name}}换乘信息 <span style="float:right" {{action
+                'back'}}>返回</span>
+            </a>
+            {{#if App.hcData.hc_info.hcinfo}}
+            {{#each App.hcData.hc_info.hcinfo}}
+            {{#if line2}}
+            <a href="javascript:;" class="list-group-item">由{{from1}}乘坐<span class="text-danger">[{{line1}}]</span>,经过{{num1}}站到达<span
+                    class="text-primary">[{{goto1}}]</span>,<br/>再乘坐<span class="text-danger">[{{line2}}]</span>经过{{num2}}站到达{{goto2}}[共{{total}}站]</a>
+            {{else}}
+            <a href="javascript:;" class="list-group-item">由{{from1}}乘坐<span class="text-danger">[{{line1}}]</span>,经过{{num1}}站直达<span
+                    class="text-primary">[{{goto1}}]</span></a>
+            {{/if}}
+            {{/each}}
+            {{else}}
+            <a href="javascript:;" class="list-group-item">没有换乘方案</a>
+            {{/if}}
+        </div>
+    </div>
+</script>
+<script src="js/libs/jquery-1.10.2.js"></script>
+<script src="js/libs/handlebars-1.1.2.js"></script>
+<script src="js/libs/ember-1.2.0.js"></script>
+<script src="js/libs/bootstrap.min.js"></script>
+<script src="js/ajax.js"></script>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+
+</body>
+</html>
