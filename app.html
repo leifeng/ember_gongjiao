@@ -5,7 +5,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="css/bootstrap.min.css">
-
     <style>
         .moda_list {
             padding: 0;
@@ -14,12 +13,16 @@
 
         .moda_list li.moda_list_title {
             clear: both;
+            font-size: 20px;
+            font-weight: bold;
         }
-
         .moda_list li {
             list-style-type: none;
             float: left;
             margin-left: 10px;
+        }
+        .moda_list li a{
+            font-size: 18px;
         }
     </style>
 
@@ -28,19 +31,7 @@
 <script type="text/x-handlebars" data-template-name="application">
     <nav class="navbar navbar-default" role="navigation">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#setting">
-                <span class="sr-only"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
             <a class="navbar-brand" href="#index">{{title}}</a>
-        </div>
-        <div class="collapse navbar-collapse" id="setting">
-            <ul class="nav navbar-nav">
-                <li><a href="#about">{{about}}</a></li>
-                <li><a href="#setting">{{setting}}</a></li>
-            </ul>
         </div>
     </nav>
     {{outlet}}
@@ -189,8 +180,17 @@
                 {{App.xlData.line_no}}路车开往{{App.xlData.line_fx_name}}方向<span style="float:right" {{action
                 'back'}}>返回</span>
             </a>
-            <a href="javascript:;" class="list-group-item" {{action 'toIndex'
-            line}}>{{#if App.xlData.station_num}}离本站最近一班车还剩{{App.xlData.station_num}}站地{{else}}该方向还未发车{{/if}}</a>
+            {{#if App.xlData.station_num}}
+            {{#each App.xlData.station_num}}
+            <a href="javascript:;" class="list-group-item" {{action 'toIndex' line}}>
+            第{{this.no}}班离本站还剩{{this.num}}站地
+            </a>
+            {{/each}}
+            {{else}}
+            <a href="javascript:;" class="list-group-item" {{action 'toIndex' line}}>
+            该方向还未发车
+            </a>
+            {{/if}}
         </div>
     </div>
 </script>
