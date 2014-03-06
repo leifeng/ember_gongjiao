@@ -5,18 +5,17 @@
     <script src="js/libs/jquery-1.10.2.js"></script>
     <script src="js/ajax.js"></script>
     <script>
-        var nowDate = new Date();
-        if (!localStorage.getItem("AjaxTime") || Math.abs(localStorage.getItem("AjaxTime") - nowDate.getDate()) > 10) {
-            Get_line_fx(function(){
-                location.href="app.html";
-            });
-        }else{
-            location.href="app.html";
+                var nowDate = new Date();
+                if (!localStorage.getItem("AjaxTime") || Math.abs(localStorage.getItem("AjaxTime") - nowDate.getDate()) > 10) {
+                    Get_line_fx(function(){
+                        location.href="app.html";
+                    });
+                }else{
+                    location.href="app.html";
 
-        }
+                }
     </script>
 </head>
 <body>
-
 </body>
 </html>

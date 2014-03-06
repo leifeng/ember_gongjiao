@@ -1,3 +1,4 @@
+
 /**************************
  * Application
  **************************/
@@ -8,8 +9,7 @@ App.Router.map(function () {
     this.resource('xl', { path: '/xl' });
     this.resource("zd", {path: "/zd"});
     this.resource("hc", {path: "/hc"});
-    this.resource('about', { path: '/about' });
-    this.resource('setting', { path: '/setting' });
+
 });
 
 /**************************
@@ -78,8 +78,13 @@ App.SearchTextField = Ember.TextField.extend({
  **************************/
 App.ApplicationController = Ember.Controller.extend({
     title: "公交查询",
-    about: "关于我们",
-    setting: "系统设置"
+    actions: {
+        toFix: function () {
+            localStorage.clear();
+            location.href = './index.html';
+        }
+    }
+
 })
 
 App.IndexController = Ember.Controller.extend({
